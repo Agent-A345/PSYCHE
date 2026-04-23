@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Psyche — Discover Your Personality</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+
+  <!-- WELCOME SCREEN -->
+  <section id="welcome-screen" class="screen active">
+    <div class="noise"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="welcome-inner">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">PSYCHE</span>
+      </div>
+      <h1 class="welcome-title">
+        <span class="line">Who are</span>
+        <span class="line italic">you, really?</span>
+      </h1>
+      <p class="welcome-subtitle">A 12-question journey into your mind. Discover your archetype, your strengths, and the fictional character you secretly are.</p>
+
+      <div class="mode-selector">
+        <p class="mode-label">Choose your lens</p>
+        <div class="mode-tabs">
+          <button class="mode-tab active" data-mode="career">🚀 Career</button>
+          <button class="mode-tab" data-mode="character">🎭 Character</button>
+          <button class="mode-tab" data-mode="relationship">💫 Relationship</button>
+        </div>
+      </div>
+
+      <div class="welcome-actions">
+        <button id="start-btn" class="btn-primary">Begin the Test</button>
+        <button id="history-btn" class="btn-ghost" style="display:none">View Past Results</button>
+      </div>
+
+      <div id="history-panel" class="history-panel" style="display:none">
+        <h3>Past Results</h3>
+        <div id="history-list"></div>
+        <button id="clear-history-btn" class="btn-ghost sm">Clear History</button>
+      </div>
+
+      <div class="theme-toggle-wrap">
+        <button id="theme-toggle" aria-label="Toggle dark/light mode">
+          <span class="toggle-icon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUESTION SCREEN -->
+  <section id="question-screen" class="screen">
+    <div class="noise"></div>
+    <div class="q-header">
+      <button id="back-to-welcome" class="btn-ghost sm">← Exit</button>
+      <div class="progress-info">
+        <span id="q-counter">1 / 12</span>
+        <span id="timer-display" class="timer">0:30</span>
+      </div>
+      <button id="theme-toggle-2" class="btn-icon" aria-label="Toggle theme">🌙</button>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-track">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="q-container">
+      <div id="question-card" class="question-card">
+        <div class="q-number-badge" id="q-badge">Q1</div>
+        <p id="question-text" class="question-text">Loading question...</p>
+        <div id="options-container" class="options-container"></div>
+      </div>
+    </div>
+
+    <div class="q-footer">
+      <button id="prev-btn" class="btn-nav" disabled>← Prev</button>
+      <button id="review-btn" class="btn-ghost sm">Review All</button>
+      <button id="next-btn" class="btn-nav">Next →</button>
+    </div>
+  </section>
+
+  <!-- REVIEW SCREEN -->
+  <section id="review-screen" class="screen">
+    <div class="noise"></div>
+    <div class="review-inner">
+      <h2 class="review-title">Review Your Answers</h2>
+      <p class="review-subtitle">Make changes before submitting.</p>
+      <div id="review-list" class="review-list"></div>
+      <div class="review-actions">
+        <button id="back-to-quiz-btn" class="btn-ghost">← Back to Quiz</button>
+        <button id="submit-btn" class="btn-primary">Submit & See Results ✨</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT SCREEN -->
+  <section id="result-screen" class="screen">
+    <div class="noise"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div id="confetti-container" class="confetti-container"></div>
+
+    <div class="result-inner">
+      <div class="result-hero">
+        <div class="result-badge-wrap">
+          <div id="result-emoji" class="result-emoji">🧠</div>
+        </div>
+        <p class="result-mode-tag" id="result-mode-tag">Career Type</p>
+        <h1 id="result-type" class="result-type">The Visionary</h1>
+        <p id="result-tagline" class="result-tagline">Loading your result...</p>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card radar-card">
+          <h3>Your Trait Profile</h3>
+          <canvas id="radar-chart" width="320" height="280"></canvas>
+        </div>
+
+        <div class="result-card desc-card">
+          <h3>About You</h3>
+          <p id="result-description"></p>
+        </div>
+
+        <div class="result-card sw-card">
+          <div class="sw-col">
+            <h3>✅ Strengths</h3>
+            <ul id="result-strengths"></ul>
+          </div>
+          <div class="sw-col">
+            <h3>⚠️ Challenges</h3>
+            <ul id="result-weaknesses"></ul>
+          </div>
+        </div>
+
+        <div class="result-card recs-card">
+          <h3>🎯 Career Paths</h3>
+          <div id="result-careers" class="tag-list"></div>
+          <h3 style="margin-top:1.2rem">🎨 Hobbies & Passions</h3>
+          <div id="result-hobbies" class="tag-list"></div>
+        </div>
+
+        <div class="result-card char-card">
+          <h3>🎭 Your Fictional Twin</h3>
+          <div id="result-character" class="character-match"></div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button id="share-btn" class="btn-primary">Share Result</button>
+        <button id="copy-btn" class="btn-ghost">📋 Copy</button>
+        <button id="restart-btn" class="btn-ghost">🔁 Retake</button>
+      </div>
+
+      <div id="share-popup" class="share-popup" style="display:none">
+        <p>Share your result:</p>
+        <div class="share-links">
+          <a id="twitter-share" href="#" target="_blank" class="share-link twitter">𝕏 Twitter</a>
+          <a id="facebook-share" href="#" target="_blank" class="share-link facebook">Facebook</a>
+        </div>
+        <button id="close-share" class="btn-ghost sm">Close</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
